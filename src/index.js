@@ -155,7 +155,7 @@ import './index.css'
           
           return (
             <li key={move} style={{fontWeight: (move === this.state.stepNumber) ? 'bold' : 'normal'}}>
-              <button onClick={() => this.jumpTo(move)}>{desc}</button>
+              <button class={(move === this.state.stepNumber) ? "buttonSelected" : "button"} onClick={() => this.jumpTo(move)}>{desc}</button>
             </li>
             );
       });

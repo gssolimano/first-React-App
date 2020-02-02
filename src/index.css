@@ -48,4 +48,14 @@ body {
   .game-info {
     margin-left: 20px;
   }
+
+  .button {
+    background: white;
+    color: black;
+  }
+
+  .buttonSelected {
+    background: black;
+    color: white;
+  }
   
