@@ -154,10 +154,10 @@ import './index.css'
           'Go to game start';
           
           return (
-            <li key={move}>
+            <li key={move} style={{fontWeight: (move === this.state.stepNumber) ? 'bold' : 'normal'}}>
               <button onClick={() => this.jumpTo(move)}>{desc}</button>
             </li>
-          );
+            );
       });
 
       let status;
