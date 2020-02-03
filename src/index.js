@@ -47,6 +47,20 @@ import './index.css'
         <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
       );
     }
+
+    createBoard() {
+      let board = [];
+      let count = 0;
+
+      for (let i=0; i < 3; i++) {
+        board.push(<div className="board-row"></div>);
+        for (let j=0; j < 3; j++) {
+          board.push(this.renderSquare(count));
+          count++;
+        }
+      }
+      return board;
+    }
   
     render() {
       //const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
@@ -59,8 +73,8 @@ import './index.css'
       } */  
   
       return (
-        <div>
-          <div className="board-row">
+        <div> 
+{/*           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
             {this.renderSquare(2)}
@@ -74,7 +88,8 @@ import './index.css'
             {this.renderSquare(6)}
             {this.renderSquare(7)}
             {this.renderSquare(8)}
-          </div>
+          </div> */
+          this.createBoard()}
         </div>
       );
     }
