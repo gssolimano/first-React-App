@@ -102,10 +102,12 @@ import './index.css'
         history: [{
           squares: Array(9).fill(null),
           col: 0, 
-          row: 0
+          row: 0, 
+          step: 0
         }],
         stepNumber: 0,
-        xIsNext: true
+        xIsNext: true, 
+        order: 'ASC'
       };
     }
 
@@ -144,11 +146,26 @@ import './index.css'
           history: history.concat([{
             squares: squares,
             col: col, 
-            row: row
+            row: row, 
+            step: this.state.stepNumber + 1
           }]),
         stepNumber: history.length,
         xIsNext: !this.state.xIsNext
       });      
+    }
+
+    startOver() {
+      this.setState({
+        history: [{
+          squares: Array(9).fill(null),
+          col: 0, 
+          row: 0, 
+          step: 0
+        }],
+        stepNumber: 0,
+        xIsNext: true, 
+        order: 'ASC'
+      });
     }
 
     jumpTo(step){
@@ -158,15 +175,49 @@ import './index.css'
       });
     }
 
+    orderHistory(newOrder){
+      // if is
+      // this.setState(function(prevState) {
+      //   return {isToggleOn: !prevState.isToggleOn};
+      // });
+      let history = this.state.history;
+      let order = this.state.order;
+      let newHistory = history;
+    
+      if (!(newOrder === order)) {
+        newHistory = history.reverse();
+      } 
+      
+      this.setState({
+        
+        history: newHistory,
+        order: newOrder,
+      });
+    }
+
+    doMoves (moves) {
+      let order = this.state.order;
+
+      if (order === 'DESC') { 
+        return (
+          <ol reversed>{moves}</ol>
+        )
+      } else {
+        return (
+          <ol>{moves}</ol>
+        )
+      }
+    }
+
     render() {
       const history = this.state.history; 
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
-      
+
       const moves = history.map((step, move) => {
         const desc = move ? 
-          'Go to move #' + move + ' (' + history[move].col + ',' + history[move].row +')':
-          'Go to game start';
+          'Go to move #' + history[move].step + ' (' + history[move].col + ',' + history[move].row +')':
+          'Go to move #' + history[move].step + ' (' + history[move].col + ',' + history[move].row +')' ;
           
           return (
             <li key={move} style={{fontWeight: (move === this.state.stepNumber) ? 'bold' : 'normal'}}>
@@ -182,8 +233,10 @@ import './index.css'
         status = 'Next player '  + (this.state.xIsNext ? 'X' : 'O');
       }
 
+      const movesList = this.doMoves(moves);
+
       return (
-        <div className="game">
+          <div className="game">
           <div className="game-board">
             <Board 
                 squares={current.squares}
@@ -192,8 +245,13 @@ import './index.css'
 
           </div>
           <div className="game-info">
+            <div><button onClick={() => this.startOver()}>RESTART</button></div>
             <div>{status}</div>
-            <ol>{moves}</ol>
+            <div>Orden: 
+              <button class={(this.state.order === 'ASC') ? "buttonSelected" : "button"} onClick={() => this.orderHistory('ASC')}>ASC</button>
+              <button class={(this.state.order === 'DESC') ? "buttonSelected" : "button"} onClick={() => this.orderHistory('DESC')}>DESC</button>
+            </div>
+            <div>{movesList}</div>
           </div>
         </div>
       );
