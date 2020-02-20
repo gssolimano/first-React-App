@@ -188,10 +188,13 @@ import './index.css'
 
       let status;
       if (winner) {
-        status = 'Winner: ' + current.squares[winner[0]];
+        status = 'End of the game: Winner player ' + current.squares[winner[0]];
+      } else if (this.state.stepNumber === 9) {
+          status = 'End of the game: Draw';
       } else {
-        status = 'Next player '  + (this.state.xIsNext ? 'X' : 'O');
+          status = 'Next player '  + (this.state.xIsNext ? 'X' : 'O');
       }
+      
 
       const movesList = this.doMoves(moves);
 
